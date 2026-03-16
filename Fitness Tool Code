@@ -1,30 +1,49 @@
 #Hi everyone, we can code on this together.
 #Click commit changes, when you have finished adding your section of the code.
-#Hi all. I have writen an initial code. It doesn't have any reference
-to AU standards yet, just generic google data.
+#Hi all. I have updated the initial code I have written.
 
 name = input("Enter you name: ")
-
-weight = int(input("Enter your weight in pounds: "))
-
-height = int(input("Enter your height in inches: "))
-
-BMI = (weight * 703) / (height * height)
-
+weight = float(input("Enter your weight in kilograms: "))
+height = float(input("Enter your height in metres: "))
+BMI = (weight) / (height * height) #Formula is from www.health.gov.au
+gender = input("Enter your gender (Male/Female): ")
+age = int(input("Enter your age: "))
 print(BMI)
 
 if BMI>0:
-    if(BMI<18.5):
-        print(name +", you are underwight.")
-    elif (BMI<=24.9):
-        print(name +", you are normal weight.")
-    elif (BMI<29.9):
-        print(name +", you are overweight. You need to exercise more and stop sitting and writing so many python tutorials.")
-    elif (BMI<34.9):
-        print(name +", you are obese.")
-    elif (BMI<39.9):
-        print(name +", you are severely obese.")
-    else:
-        print(name +", you are morbidly obese.")
+if(BMI<18.5):
+print(name +", you are underweight.")
+elif (BMI<=24.9):
+print(name +", you are normal weight.")
+elif (BMI<=29.9):
+print(name +", you are overweight. You need to exercise more and stop sitting and writing so many python tutorials.")
+elif (BMI<=34.9):
+print(name +", you are obese.")
+elif (BMI<=39.9):
+print(name +", you are severely obese.")
 else:
-    print("Enter valid input")
+print(name +", you are morbidly obese.")
+else:
+print("Enter valid input")
+
+waist_circumference = float(input("Enter your waist circumference in centimeters: "))
+hip_circumference = float(input("Enter your hip circumference in centimeters: "))
+WHR = (waist_circumference / hip_circumference)
+
+print(WHR) #Formula is from webmd
+
+if WHR>0:
+if(WHR<=0.80) and (gender=="Female"):
+print(name +", you are at low risk of cardiovascular diseases and diabetes.")
+elif(WHR<=0.90) and (gender=="Male"):
+print(name + ", you are at low risk of cardiovascular diseases and diabetes.")
+elif(WHR<=0.85) and (gender=="Female"):
+print(name +", you are at moderate risk of cardiovascular diseases and diabetes.")
+elif(WHR<=0.95) and (gender=="Male"):
+print(name + ", you are at moderate risk of cardiovascular diseases and diabetes.")
+elif(WHR>=0.85) and (gender=="Female"):
+print(name +", you are at high risk of cardiovascular diseases and diabetes.")
+elif(WHR>=0.95) and (gender=="Male"):
+print(name + ", you are at high risk of cardiovascular diseases and diabetes.")
+else:
+print("Enter valid input")
