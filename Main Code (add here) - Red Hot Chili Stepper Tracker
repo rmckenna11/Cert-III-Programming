@@ -1,0 +1,65 @@
+#Fitness tracker program
+
+
+#functions section
+import datetime
+import time
+current_date = datetime.date.today().strftime('%Y-%m-%d')
+current_time = datetime.datetime.now().strftime("Time: %H:%M")
+
+### section to delete later as people add stuff, this is a stand in until user input defines these words.
+BMI = 20
+calories_burned = 300
+# # # 
+
+
+
+#Welcome section
+print("Hello, welcome to the Red Hot Chili Stepper fitness tracker! Please enter your name to begin. ")
+name = input(">> ") #waits for input from user
+
+
+#Weight input section
+
+first_attempt = True    #if the user input is incorrect it will trigger a new state which will stop the welcome message repeating
+while True:             #Starts a loop which prevents the program crashing if incorrect input is entered
+    try:                #the try command will attempt to run the below code each time its triggered. If unable to run it will proceed to the 'except' command
+        if first_attempt:
+            print(f"\nHello, {name}! Please enter your weight in kg.") #the f-string allows the name to be used directly without the + symbol abd the \n adds a line before the next read out.
+            first_attempt = False
+        else: #if first attempt fails the below message will be displayed instead of the welcome
+            print("Please enter your weight in cm.")
+        weight = float(input(">> "))
+        if weight <= 0: #prevents negative numbers
+            print("weight must be a positive number")
+        else:
+            break       #Break command ends the 'while true' loop when triggered
+    except ValueError:  #when trigger ValueError is caught and input error message is displayed
+        print("incorrect input. please try again")
+print(f"\nYou entered {weight}kg.")
+
+
+#Height input section
+
+while True:
+    try:
+        print("Please enter your height in cm.")
+        height = float(input(">> "))
+        if height <= 0:
+            print("height must be a positive number")
+        else:
+            break
+    except ValueError:
+        print("incorrect input. please try again")
+print(f"\nYou entered {height}cm.")
+
+
+
+
+#save to file section
+filename = f"{name}_{current_date}.txt"
+with open (filename, 'a') as file:
+    file.write(f"Name: {name} \n")
+    file.write(f"{current_time}\n")
+    file.write(f"BMI: {BMI} \n")
+    file.write(f"calories burned: {calories_burned} \n")
