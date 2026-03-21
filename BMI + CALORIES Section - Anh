@@ -1,0 +1,88 @@
+# =====================================
+# BMI + CALORIES SECTION
+# =====================================
+
+import random  # library function
+
+# ---------- FUNCTION: Calculate BMI ----------
+def calculate_bmi(weight, height_cm):
+    height_m = height_cm / 100
+    return weight / (height_m ** 2)
+
+# ---------- FUNCTION: BMI Category ----------
+def bmi_category(bmi):
+    if bmi < 18.5:
+        return "under"
+    elif bmi < 25:
+        return "average"
+    else:
+        return "over"
+
+# ---------- FUNCTION: Calories ----------
+def calculate_calories(activity, level, duration):
+    # Array (list/dictionary structure)
+    activities = {
+        "running": 400,
+        "swimming": 500,
+        "biking": 350,
+        "walking": 200
+    }
+
+    base = activities.get(activity, 300)
+    return base * duration * (level / 5)
+
+# ---------- BMI OUTPUT ----------
+bmi = calculate_bmi(weight, height)
+category = bmi_category(bmi)
+
+print(f"\nYour BMI is {bmi:.2f}")
+print(f"Your BMI is {category}")
+
+# ---------- CALORIES QUESTION ----------
+while True:   # loop structure
+    choice = input("\nWould you like to calculate your calories burnt? (yes/no): ").lower()
+
+    if choice == "no":
+        print("Thank you for using our fitness tracker")
+        break
+
+    elif choice == "yes":
+
+        # Array (list)
+        activity_list = ["running", "swimming", "biking", "walking"]
+
+        print("\nWhat activity have you done?")
+        for act in activity_list:
+            print("-", act)
+
+        activity = input(">> ").lower()
+        print(f"\nYou have entered [{activity}]")
+
+        try:
+            level = int(input("\nPlease enter the level of exercise between 1 and 10:\n>> "))
+            print(f"You entered [{level}]")
+
+            duration = float(input("\nPlease enter the duration in hours:\n>> "))
+            print(f"You have entered [{duration}]")
+
+        except ValueError:
+            print("Invalid input, please try again.")
+            continue
+
+        # Calculate calories
+        calories = calculate_calories(activity, level, duration)
+
+        print(f"\nYou have burnt {calories:.0f} calories")
+
+        # ---------- RANDOM TIP (library function) ----------
+        tips = ["Stay hydrated", "Keep training", "Good job", "Stay consistent"]
+        print("Tip:", random.choice(tips))
+
+        # ---------- FILE HANDLING ----------
+        with open("fitness_log.txt", "a") as file:
+            file.write(f"{name},{weight},{height},{bmi:.2f},{activity},{calories:.0f}\n")
+
+        break
+
+    else:
+        print("Please enter yes or no.")
