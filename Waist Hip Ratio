@@ -1,0 +1,69 @@
+def calculate_whr(sex, waist, hip):
+    """
+    Calculates the Waist-to-Hip Ratio (WHR) and assesses health risk.
+
+    Args:
+        sex (str): The person's sex ('male' or 'female').
+        waist (float): The waist circumference measurement.
+        hip (float): The hip circumference measurement.
+
+    Returns:
+        tuple: (whr_value, risk_category, message)
+    """
+    if hip == 0:
+        return None, "Error", "Hip measurement cannot be zero."
+
+    whr = waist / hip
+    whr_value = round(whr, 2)
+    risk_category = ""
+    message = ""
+
+    if sex.lower() == "male":
+        if whr > 1.0:
+            risk_category = "High risk"
+            message = "A WHR above 0.90 in men indicates a substantially increased risk for metabolic complications, according to the WHO."
+        elif whr >= 0.9 and whr <= 1.0:
+            risk_category = "Moderate risk"
+            message = "A WHR between 0.90 and 1.0 in men is associated with increased health risk."
+        else:
+            risk_category = "Low risk"
+            message = "A WHR below 0.90 in men is associated with low health risk, according to the WHO."
+    
+    elif sex.lower() == "female":
+        if whr > 0.85:
+            risk_category = "High risk"
+            message = "A WHR above 0.85 in women indicates a substantially increased risk for metabolic complications, according to the WHO."
+        elif whr >= 0.8 and whr <= 0.85:
+            risk_category = "Moderate risk"
+            message = "A WHR between 0.80 and 0.85 in women is associated with increased health risk."
+        else:
+            risk_category = "Low risk"
+            message = "A WHR below 0.85 in women is associated with low health risk, according to the WHO."
+    
+    else:
+        return None, "Error", "Invalid sex entered. Please enter 'male' or 'female'."
+
+    return whr_value, risk_category, message
+
+# Example Usage:
+if __name__ == "__main__":
+    try:
+        # Get user input
+        sex_input = input("Enter your sex (male/female): ")
+        waist_input = float(input("Enter your waist size (in same unit for both): "))
+        hip_input = float(input("Enter your hip size (in same unit for both): "))
+
+        # Calculate and get results
+        whr, category, msg = calculate_whr(sex_input, waist_input, hip_input)
+
+        # Display output
+        if whr is not None:
+            print(f"\nYour Waist-to-Hip Ratio is: {whr}")
+            print(f"Health Risk Category: {category}")
+            print(f"Details: {msg}")
+        else:
+            print(f"\nError: {msg}")
+
+    except ValueError:
+        print("\nInvalid input. Please enter numerical values for measurements.")
+
