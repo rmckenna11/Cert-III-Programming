@@ -1,10 +1,14 @@
-#Fitness tracker program
-#Welcome section
+# =====================================
+# RED HOT CHILI STEPPERS - FITNESS APP
+# =====================================
+
+
+# ---------- FUNCTION: Welcome User----------
 print("Hello, welcome to the Red Hot Chili Stepper fitness tracker! Please enter your name to begin. ")
 name = input(">> ") #waits for input from user
 
 
-#Weight input section
+# ---------- FUNCTION: Weight input ----------
 
 first_attempt = True    #if the user input is incorrect it will trigger a new state which will stop the welcome message repeating
 while True:             #Starts a loop which prevents the program crashing if incorrect input is entered
@@ -24,7 +28,7 @@ while True:             #Starts a loop which prevents the program crashing if in
 print(f"\nYou entered {weight}kg.")
 
 
-#Height input section
+# ---------- FUNCTION: Height input ----------
 
 while True:
     try:
@@ -37,3 +41,4 @@ while True:
     except ValueError:
         print("incorrect input. please try again")
 print(f"\nYou entered {height}cm.")
+
