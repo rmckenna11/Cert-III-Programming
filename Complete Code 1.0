@@ -8,9 +8,6 @@ import time
 current_date = datetime.date.today().strftime('%Y-%m-%d')
 current_time = datetime.datetime.now().strftime("Time: %H:%M")
 
-### section to delete later as people add stuff, this is a stand in until user input defines these words.
-
-# # #
 
 
 # ---------- FUNCTION: Welcome User----------
