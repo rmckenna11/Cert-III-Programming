@@ -1,0 +1,225 @@
+# =====================================
+# RED HOT CHILI STEPPERS - FITNESS APP
+# =====================================
+
+#functions section
+import datetime
+import time
+current_date = datetime.date.today().strftime('%Y-%m-%d')
+current_time = datetime.datetime.now().strftime("Time: %H:%M")
+
+### section to delete later as people add stuff, this is a stand in until user input defines these words.
+
+# # #
+
+
+# ---------- FUNCTION: Welcome User----------
+print("Hello, welcome to the Red Hot Chili Stepper fitness tracker! Please enter your name to begin. ")
+name = input(">> ") #waits for input from user
+
+
+# ---------- FUNCTION: Weight input ----------
+
+first_attempt = True    #if the user input is incorrect it will trigger a new state which will stop the welcome message repeating
+while True:             #Starts a loop which prevents the program crashing if incorrect input is entered
+    try:                #the try command will attempt to run the below code each time its triggered. If unable to run it will proceed to the 'except' command
+        if first_attempt:
+            print(f"\nHello, {name}! Please enter your weight in kg.") #the f-string allows the name to be used directly without the + symbol abd the \n adds a line before the next read out.
+            first_attempt = False
+        else: #if first attempt fails the below message will be displayed instead of the welcome
+            print("Please enter your weight in cm.")
+        weight = float(input(">> "))
+        if weight <= 0: #prevents negative numbers
+            print("weight must be a positive number")
+        else:
+            break       #Break command ends the 'while true' loop when triggered
+    except ValueError:  #when trigger ValueError is caught and input error message is displayed
+        print("incorrect input. please try again")
+print(f"\nYou entered {weight}kg.")
+
+
+# ---------- FUNCTION: Height input ----------
+
+while True:
+    try:
+        print("Please enter your height in cm.")
+        height = float(input(">> "))
+        if height <= 0:
+            print("height must be a positive number")
+        else:
+            break
+    except ValueError:
+        print("incorrect input. please try again")
+print(f"\nYou entered {height}cm.")
+
+# =====================================
+# BMI + CALORIES SECTION
+# =====================================
+
+import random  # library function
+
+# ---------- FUNCTION: Calculate BMI ----------
+def calculate_bmi(weight, height_cm):
+    height_m = height_cm / 100
+    return weight / (height_m ** 2)
+
+# ---------- FUNCTION: BMI Category ----------
+def bmi_category(bmi):
+    if bmi < 18.5:
+        return "under"
+    elif bmi < 25:
+        return "average"
+    else:
+        return "over"
+
+# ---------- FUNCTION: Calories ----------
+def calculate_calories(activity, level, duration):
+    # Array (list/dictionary structure)
+    activities = {
+        "running": 400,
+        "swimming": 500,
+        "biking": 350,
+        "walking": 200
+    }
+
+    base = activities.get(activity, 300)
+    return base * duration * (level / 5)
+
+# ---------- BMI OUTPUT ----------
+bmi = calculate_bmi(weight, height)
+category = bmi_category(bmi)
+
+print(f"\nYour BMI is {bmi:.2f}")
+print(f"Your BMI is {category}")
+
+# ---------- CALORIES QUESTION ----------
+while True:   # loop structure
+    choice = input("\nWould you like to calculate your calories burnt? (yes/no): ").lower()
+
+    if choice == "no":
+        print("Thank you for using our fitness tracker")
+        break
+
+    elif choice == "yes":
+
+        # Array (list)
+        activity_list = ["running", "swimming", "biking", "walking"]
+
+        print("\nWhat activity have you done?")
+        for act in activity_list:
+            print("-", act)
+
+        activity = input(">> ").lower()
+        print(f"\nYou have entered [{activity}]")
+
+        try:
+            level = int(input("\nPlease enter the level of exercise between 1 and 10:\n>> "))
+            print(f"You entered [{level}]")
+
+            duration = float(input("\nPlease enter the duration in hours:\n>> "))
+            print(f"You have entered [{duration}]")
+
+        except ValueError:
+            print("Invalid input, please try again.")
+            continue
+
+        # Calculate calories
+        calories = calculate_calories(activity, level, duration)
+
+        print(f"\nYou have burnt {calories:.0f} calories")
+
+        # ---------- RANDOM TIP (library function) ----------
+        tips = ["Stay hydrated", "Keep training", "Good job", "Stay consistent"]
+        print("Tip:", random.choice(tips))
+
+        # ---------- FILE HANDLING ----------
+        with open("fitness_log.txt", "a") as file:
+            file.write(f"{name},{weight},{height},{bmi:.2f},{activity},{calories:.0f}\n")
+
+        break
+
+    else:
+        print("Please enter yes or no.")
+
+
+def calculate_whr(sex, waist, hip):
+    """
+    Calculates the Waist-to-Hip Ratio (WHR) and assesses health risk.
+
+    Args:
+        sex (str): The person's sex ('male' or 'female').
+        waist (float): The waist circumference measurement.
+        hip (float): The hip circumference measurement.
+
+    Returns:
+        tuple: (whr_value, risk_category, message)
+    """
+    if hip == 0:
+        return None, "Error", "Hip measurement cannot be zero."
+
+    whr = waist / hip
+    whr_value = round(whr, 2)
+    risk_category = ""
+    message = ""
+
+    if sex.lower() == "male":
+        if whr > 1.0:
+            risk_category = "High risk"
+            message = "A WHR above 0.90 in men indicates a substantially increased risk for metabolic complications, according to the WHO."
+        elif whr >= 0.9 and whr <= 1.0:
+            risk_category = "Moderate risk"
+            message = "A WHR between 0.90 and 1.0 in men is associated with increased health risk."
+        else:
+            risk_category = "Low risk"
+            message = "A WHR below 0.90 in men is associated with low health risk, according to the WHO."
+
+    elif sex.lower() == "female":
+        if whr > 0.85:
+            risk_category = "High risk"
+            message = "A WHR above 0.85 in women indicates a substantially increased risk for metabolic complications, according to the WHO."
+        elif whr >= 0.8 and whr <= 0.85:
+            risk_category = "Moderate risk"
+            message = "A WHR between 0.80 and 0.85 in women is associated with increased health risk."
+        else:
+            risk_category = "Low risk"
+            message = "A WHR below 0.85 in women is associated with low health risk, according to the WHO."
+
+    else:
+        return None, "Error", "Invalid sex entered. Please enter 'male' or 'female'."
+
+    return whr_value, risk_category, message
+
+
+# Example Usage:
+if __name__ == "__main__":
+    try:
+        # Get user input
+        sex_input = input("Enter your sex (male/female): ")
+        waist_input = float(input("Enter your waist size (in same unit for both): "))
+        hip_input = float(input("Enter your hip size (in same unit for both): "))
+
+        # Calculate and get results
+        whr, category, msg = calculate_whr(sex_input, waist_input, hip_input)
+
+        # Display output
+        if whr is not None:
+            print(f"\nYour Waist-to-Hip Ratio is: {whr}")
+            print(f"Health Risk Category: {category}")
+            print(f"Details: {msg}")
+        else:
+            print(f"\nError: {msg}")
+
+    except ValueError:
+        print("\nInvalid input. Please enter numerical values for measurements.")
+
+
+
+
+#save to file section
+filename = f"{name}_{current_date}.txt"
+with open (filename, 'a') as file:
+    file.write(f"Name: {name} \n")
+    file.write(f"{current_time}\n")
+    file.write(f"BMI: {bmi} \n")
+    file.write(f"calories burned: {calories} \n")
+    file.write(f"WHR {whr}\n")
