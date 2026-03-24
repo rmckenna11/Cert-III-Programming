@@ -138,6 +138,8 @@ while True:   # loop structure
     else:
         print("Please enter yes or no.")
 
+# Waist Hip Ratio calculation based on age to determine risk factor for developing lifestyle-related diseases
+# three arguments required to compute whr
 
 def calculate_whr(sex, waist, hip):
     """
@@ -151,6 +153,8 @@ def calculate_whr(sex, waist, hip):
     Returns:
         tuple: (whr_value, risk_category, message)
     """
+
+#calculate for whr
     if hip == 0:
         return None, "Error", "Hip measurement cannot be zero."
 
